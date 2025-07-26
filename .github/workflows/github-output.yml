@@ -1,0 +1,20 @@
+name: Github Output
+on: workflow_dispatch
+jobs:
+  share_output:
+    runs-on: ubuntu-latest
+    steps:
+      - id: step1
+        run: echo 'result=output1' >> "${GITHUB_OUTPUT}"
+      - id: step2
+        env:
+          RESULT1: ${{ steps.step1.outputs.result }}
+        run: |
+          echo "${RESULT1}"
+          echo 'result=output2' >> "${GITHUB_OUTPUT}"
+      - env:
+          RESULT1: ${{ steps.step1.outputs.result }}
+          RESULT2: ${{ steps.step2.outputs.result }}
+        run: |
+          echo "${RESULT1}"
+          echo "${RESULT2}"
